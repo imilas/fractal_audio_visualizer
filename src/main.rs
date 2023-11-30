@@ -1,7 +1,6 @@
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use main::fft;
 use ringbuf::HeapRb;
-use std::iter;
 
 const FFT_LEN: usize = 2048;
 
@@ -10,7 +9,7 @@ use minifb::{Key, Scale, ScaleMode, Window, WindowOptions};
 const WIDTH: usize = 500;
 const HEIGHT: usize = 500;
 const FRACTAL_DEPTH: u32 = 32;
-const GENERATION_INFINITY: f64 = 16.;
+const GENERATION_INFINITY: f64 = 8.;
 
 fn main() -> anyhow::Result<()> {
     // cpal setup
@@ -69,11 +68,11 @@ fn main() -> anyhow::Result<()> {
     let x_max = 0. + range;
     let y_max = 0. + range;
 
-    let mut angle: f64 = 0.0;
+    let mut angle: f64 = 1.0;
 
     window.set_background_color(0, 0, 20);
 
-    while window.is_open() && !window.is_key_down(Key::Escape) {
+    while window.is_open() && !window.is_key_down(Key::Q) {
         for (i, pixel) in buffer.iter_mut().enumerate() {
             let mut real = map((i % WIDTH) as f64, 0., WIDTH as f64, x_min, x_max);
             let mut imag = map((i / HEIGHT) as f64, 0., HEIGHT as f64, y_min, y_max);
@@ -104,15 +103,18 @@ fn main() -> anyhow::Result<()> {
             // also, the fft::fft function can limit the range of requencies
             let (_, buff_mel) = fft::spec_to_mels(&buff_fft);
             let num_bins = buff_mel.len();
-            let low: f32 =
-                buff_mel[0..num_bins / 10 as usize].iter().sum::<f32>() / num_bins as f32;
-            let med: f32 = buff_mel[num_bins / 10..num_bins / 4 as usize]
+            let low: f64 =
+                buff_mel[0..num_bins / 10 as usize].iter().sum::<f32>() as f64 / num_bins as f64;
+            let med: f64 = buff_mel[num_bins / 10..num_bins / 3 as usize]
                 .iter()
-                .sum::<f32>()
-                / num_bins as f32;
-            let high: f32 = buff_mel[num_bins / 4..num_bins].iter().sum::<f32>() / num_bins as f32;
+                .sum::<f32>() as f64
+                / num_bins as f64;
+            let high: f64 =
+                buff_mel[num_bins / 3..num_bins].iter().sum::<f32>() as f64 / num_bins as f64;
+
+            angle += high * 10.0;
+            angle -= (low + med) * 13.0;
         }
-        angle += 0.1;
 
         // We unwrap here as we want this code to exit if it fails
         window.update_with_buffer(&buffer, WIDTH, HEIGHT).unwrap();
@@ -128,6 +130,7 @@ fn fill(n: u32) -> u32 {
     if FRACTAL_DEPTH == n {
         0x00
     } else {
+        // can bit shift here by 8 to make red and green
         n * 32 % 255
     }
 }
