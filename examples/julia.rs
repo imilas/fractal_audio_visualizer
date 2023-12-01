@@ -1,9 +1,9 @@
 use minifb::{Key, Scale, ScaleMode, Window, WindowOptions};
 
-const WIDTH: usize = 20;
-const HEIGHT: usize = 20;
-const FRACTAL_DEPTH: u32 = 12;
-const GENERATION_INFINITY: f64 = 4.;
+const WIDTH: usize = 500;
+const HEIGHT: usize = 500;
+const FRACTAL_DEPTH: u32 = 64;
+const GENERATION_INFINITY: f64 = 16.;
 
 fn main() {
     let mut buffer: Vec<u32> = vec![0; WIDTH * HEIGHT];
@@ -73,6 +73,6 @@ fn fill(n: u32) -> u32 {
     if FRACTAL_DEPTH == n {
         0x00
     } else {
-        (n * 32 % 255) << 17
+        n * 32 % 255
     }
 }

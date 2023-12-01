@@ -6,10 +6,10 @@ const FFT_LEN: usize = 2048;
 
 use minifb::{Key, Scale, ScaleMode, Window, WindowOptions};
 
-const WIDTH: usize = 500;
-const HEIGHT: usize = 500;
-const FRACTAL_DEPTH: u32 = 32;
-const GENERATION_INFINITY: f64 = 8.;
+const WIDTH: usize = 600;
+const HEIGHT: usize = 600;
+const FRACTAL_DEPTH: u32 = 62;
+const GENERATION_INFINITY: f64 = 32.;
 
 fn main() -> anyhow::Result<()> {
     // cpal setup
@@ -68,7 +68,7 @@ fn main() -> anyhow::Result<()> {
     let x_max = 0. + range;
     let y_max = 0. + range;
 
-    let mut angle: f64 = 1.0;
+    let mut angle: f64 = 2.0;
 
     window.set_background_color(0, 0, 20);
 
