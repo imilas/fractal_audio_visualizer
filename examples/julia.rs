@@ -1,7 +1,7 @@
 use minifb::{Key, Scale, ScaleMode, Window, WindowOptions};
 
-const WIDTH: usize = 500;
-const HEIGHT: usize = 500;
+const WIDTH: usize = 300;
+const HEIGHT: usize = 300;
 const FRACTAL_DEPTH: u32 = 64;
 const GENERATION_INFINITY: f64 = 16.;
 
@@ -24,7 +24,7 @@ fn main() {
     // Limit to max ~60 fps update rate
     window.limit_update_rate(Some(std::time::Duration::from_micros(16600)));
 
-    let range = 2.0;
+    let range = 1.0;
     let x_min = 0. - range;
     let y_min = 0. - range;
 
