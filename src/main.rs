@@ -1,4 +1,5 @@
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
+use main::cpal_enumerate;
 use main::fft;
 use ringbuf::HeapRb;
 
@@ -6,13 +7,14 @@ const FFT_LEN: usize = 2048;
 
 use minifb::{Key, KeyRepeat, Scale, ScaleMode, Window, WindowOptions};
 
-const WIDTH: usize = 500;
-const HEIGHT: usize = 500;
+const WIDTH: usize = 300;
+const HEIGHT: usize = 300;
 const FRACTAL_DEPTH: u32 = 32;
 const GENERATION_INFINITY: f64 = 8.;
-const MAX_EXPONENT: f64 = 20.0; // maximum power of z
+const MAX_EXPONENT: f64 = 7.;
 
 fn main() -> anyhow::Result<()> {
+    let _ = cpal_enumerate::get_devices();
     // cpal setup
     let host = cpal::default_host();
     let input_device = host
@@ -86,16 +88,6 @@ fn main() -> anyhow::Result<()> {
             let mut z = num::complex::Complex::new(real, imag);
 
             while n < FRACTAL_DEPTH {
-                // let re = real.powf(2.) - imag.powf(2.);
-                // let im = 2. * real * imag;
-                // let re = real.powf(3.) - 3. * imag.powf(2.) * real;
-                // let im = -imag.powf(3.) + 3. * real.powf(2.) * imag;
-                // real = re + angle.cos();
-                // imag = im + angle.sin();
-
-                // if (real + imag).abs() > GENERATION_INFINITY {
-                //     break; // Leave when achieve infinity
-                // }
                 z = z.powf(exponent);
                 real = z.re + angle.cos();
                 imag = z.im + angle.sin();
@@ -137,11 +129,11 @@ fn main() -> anyhow::Result<()> {
 
         if window.is_key_pressed(Key::J, KeyRepeat::No) {
             exponent = exponent.floor() % MAX_EXPONENT + 1.;
-            println!("new exponent: {exponent}");
+            println!("New Exponent: {exponent}");
         }
         if window.is_key_pressed(Key::K, KeyRepeat::No) {
-            exponent = exponent.floor() - 1.0;
-            println!("new exponent: {exponent}");
+            exponent = exponent % MAX_EXPONENT - 1.;
+            println!("New Exponent: {exponent}");
         }
 
         // We unwrap here as we want this code to exit if it fails
