@@ -7,10 +7,10 @@ const FFT_LEN: usize = 2048;
 
 use minifb::{Key, KeyRepeat, Scale, ScaleMode, Window, WindowOptions};
 
-const WIDTH: usize = 300;
-const HEIGHT: usize = 300;
-const FRACTAL_DEPTH: u32 = 32;
-const GENERATION_INFINITY: f64 = 8.;
+const WIDTH: usize = 500;
+const HEIGHT: usize = 500;
+const FRACTAL_DEPTH: u32 = 16;
+const GENERATION_INFINITY: f64 = 15.;
 const MAX_EXPONENT: f64 = 7.;
 
 fn main() -> anyhow::Result<()> {
@@ -55,7 +55,7 @@ fn main() -> anyhow::Result<()> {
         HEIGHT,
         WindowOptions {
             resize: false,
-            scale: Scale::X2,
+            scale: Scale::X1,
             scale_mode: ScaleMode::Stretch,
             ..WindowOptions::default()
         },
@@ -127,11 +127,11 @@ fn main() -> anyhow::Result<()> {
             ratio = (1. - eps) * ratio + eps * ((low + 0.001) / (0.0001 + high));
         }
 
-        if window.is_key_pressed(Key::J, KeyRepeat::No) {
+        if window.is_key_pressed(Key::K, KeyRepeat::No) {
             exponent = exponent.floor() % MAX_EXPONENT + 1.;
             println!("New Exponent: {exponent}");
         }
-        if window.is_key_pressed(Key::K, KeyRepeat::No) {
+        if window.is_key_pressed(Key::J, KeyRepeat::No) {
             exponent = exponent % MAX_EXPONENT - 1.;
             println!("New Exponent: {exponent}");
         }
@@ -152,10 +152,10 @@ fn fill(n: u32, low: f64, high: f64) -> u32 {
         ((high * 20. * 255.) as u32) << 16 //red at out of bound set
     } else if n % 7 == 0 {
         255 + ((n * 100 % 255) << 8) + (((low * 20. * 255.) as u32) << 16) // every 7th layer gets some red and green
-    } else if n > FRACTAL_DEPTH - 20 {
+    } else if n > FRACTAL_DEPTH - 10 {
         ((high * 20. % 255.) as u32) << 16 // end layers get red
     } else {
-        255 + ((n * 100 % 255) << 8)
+        200 + ((n * 100 % 122) << 8)
     }
 }
 fn err_fn(err: cpal::StreamError) {

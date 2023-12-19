@@ -1,2 +1,0 @@
-To do:
-- Make big transitions smooth. Currently all transitions take 1 frame, which makes things jump around when transitions are large. 
