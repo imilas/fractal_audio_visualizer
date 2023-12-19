@@ -10,7 +10,7 @@ use minifb::{Key, KeyRepeat, Scale, ScaleMode, Window, WindowOptions};
 const WIDTH: usize = 500;
 const HEIGHT: usize = 500;
 const FRACTAL_DEPTH: u32 = 16;
-const GENERATION_INFINITY: f64 = 15.;
+const GENERATION_INFINITY: f64 = 1.;
 const MAX_EXPONENT: f64 = 7.;
 
 fn main() -> anyhow::Result<()> {
@@ -55,7 +55,7 @@ fn main() -> anyhow::Result<()> {
         HEIGHT,
         WindowOptions {
             resize: false,
-            scale: Scale::X1,
+            scale: Scale::X2,
             scale_mode: ScaleMode::Stretch,
             ..WindowOptions::default()
         },
@@ -155,7 +155,7 @@ fn fill(n: u32, low: f64, high: f64) -> u32 {
     } else if n > FRACTAL_DEPTH - 10 {
         ((high * 20. % 255.) as u32) << 16 // end layers get red
     } else {
-        200 + ((n * 100 % 122) << 8)
+        200 + ((n * 100 % 255) << 8)
     }
 }
 fn err_fn(err: cpal::StreamError) {
