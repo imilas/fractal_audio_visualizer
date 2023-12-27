@@ -3,8 +3,9 @@ Creating framebuffers from audio using julia sets.
 ## Dependencies 
 See cargo.toml for complete list of dependencies
 ## How to run
-Quick run: `cargo run`
-Optimized run (faster):
+- Quick run: `cargo run`
+
+- Optimized run (faster):
         - `cargo clean`
         - `cargo build --release`
         - `./target/release/main`
