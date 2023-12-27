@@ -9,6 +9,7 @@ Optimized run (faster):
 - `cargo clean` 
 - `cargo build --release` 
 - `./target/release/main`
+
 ## How to use
 - after running, the fractals should change based on low/high frequency sounds captured by default audio devide
 - press Q to close window
