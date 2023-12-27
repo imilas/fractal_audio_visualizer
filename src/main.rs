@@ -7,10 +7,10 @@ const FFT_LEN: usize = 2048;
 
 use minifb::{Key, KeyRepeat, Scale, ScaleMode, Window, WindowOptions};
 
-const WIDTH: usize = 500;
-const HEIGHT: usize = 500;
+const WIDTH: usize = 400;
+const HEIGHT: usize = 400;
 const FRACTAL_DEPTH: u32 = 16;
-const GENERATION_INFINITY: f64 = 1.;
+const GENERATION_INFINITY: f64 = 12.;
 const MAX_EXPONENT: f64 = 7.;
 
 fn main() -> anyhow::Result<()> {
@@ -55,7 +55,7 @@ fn main() -> anyhow::Result<()> {
         HEIGHT,
         WindowOptions {
             resize: false,
-            scale: Scale::X2,
+            scale: Scale::X1,
             scale_mode: ScaleMode::Stretch,
             ..WindowOptions::default()
         },
@@ -105,6 +105,7 @@ fn main() -> anyhow::Result<()> {
 
         //when buffer full, process frequencies
         if consumer.len() > FFT_LEN {
+            let mut angle_update: f64;
             let v: Vec<f32> = consumer.pop_iter().collect();
             // let amp = f64::from(v.iter().map(|&x| x.abs()).sum::<f32>() / v.len() as f32);
             let buff_fft = fft::fft(&v, FFT_LEN);
@@ -120,11 +121,16 @@ fn main() -> anyhow::Result<()> {
                 / (num_bins - low_cut) as f64;
 
             if high > low {
-                angle += f64::min(0.1, 7. * high);
+                angle_update = f64::min(0.1, 7. * high);
             } else {
-                angle -= f64::min(0.1, 7. * low);
+                angle_update = -1. * f64::min(0.1, 7. * low);
             }
             ratio = (1. - eps) * ratio + eps * ((low + 0.001) / (0.0001 + high));
+
+            if exponent <= -1. {
+                angle_update = angle_update * 0.3; // negative exponents more sensetive
+            }
+            angle += angle_update;
         }
 
         if window.is_key_pressed(Key::K, KeyRepeat::No) {
