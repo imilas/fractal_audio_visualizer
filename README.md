@@ -3,12 +3,11 @@ Creating framebuffers from audio using julia sets.
 ## Dependencies 
 See cargo.toml for complete list of dependencies
 ## How to run
-- Quick run: `cargo run`
-
-- Optimized run (faster):
-        - `cargo clean`
-        - `cargo build --release`
-        - `./target/release/main`
+        Quick run: `cargo run`
+        Optimized run (faster):
+                - `cargo clean`
+                - `cargo build --release`
+                - `./target/release/main`
 ## How to use
 - after running, the fractals should change based on low/high frequency sounds captured by default audio devide
 - press Q to close window
