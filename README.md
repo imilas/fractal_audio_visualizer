@@ -7,7 +7,9 @@ Quick run: `cargo run`
 
 Optimized run (faster): 
 - `cargo clean` 
+
 - `cargo build --release` 
+
 - `./target/release/main`
 
 ## How to use
