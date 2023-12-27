@@ -10,7 +10,7 @@ use minifb::{Key, KeyRepeat, Scale, ScaleMode, Window, WindowOptions};
 const WIDTH: usize = 400;
 const HEIGHT: usize = 400;
 const FRACTAL_DEPTH: u32 = 16;
-const GENERATION_INFINITY: f64 = 12.;
+const GENERATION_INFINITY: f64 = 8.;
 const MAX_EXPONENT: f64 = 7.;
 
 fn main() -> anyhow::Result<()> {
@@ -128,7 +128,7 @@ fn main() -> anyhow::Result<()> {
             ratio = (1. - eps) * ratio + eps * ((low + 0.001) / (0.0001 + high));
 
             if exponent <= -1. {
-                angle_update = angle_update * 0.3; // negative exponents more sensetive
+                angle_update = angle_update * 0.5; // negative exponents more sensetive
             }
             angle += angle_update;
         }
