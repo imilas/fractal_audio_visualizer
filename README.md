@@ -1,7 +1,7 @@
 Creating framebuffers from audio using julia sets. 
 
 ## Dependencies 
-    - minifb: https://github.com/emoon/rust_minifb
+- minifb: https://github.com/emoon/rust_minifb
         - a cross platform cpu based renderer of a pixel buffer
     - cpal: 
         - cross platform audio io library 
