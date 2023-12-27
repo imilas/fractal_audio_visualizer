@@ -6,9 +6,10 @@ See cargo.toml for complete list of dependencies
 Quick run: `cargo run`
 
 Optimized run (faster): 
-    `-  cargo clean 
+
+    -  cargo clean 
     -  cargo build --release 
-    - ./target/release/main`
+    - ./target/release/main
 
 ## How to use
 - after running, the fractals should change based on low/high frequency sounds captured by default audio devide
