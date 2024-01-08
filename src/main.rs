@@ -17,10 +17,10 @@ fn main() -> anyhow::Result<()> {
     let _ = cpal_enumerate::get_devices();
     // cpal setup
     let host = cpal::default_host();
+
     let input_device = host
         .default_input_device()
         .expect("no output device available");
-
     let fft_len = FFT_LEN;
 
     // The buffer to share samples
